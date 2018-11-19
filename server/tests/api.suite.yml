@@ -1,0 +1,12 @@
+class_name: ApiTester
+modules:
+    enabled:
+        - WebDriver:
+            url: 'http://server'
+            browser: chrome
+            wait: 0
+extensions:
+  enabled:
+  - Codeception\Extension\RunProcess:
+      0: java -Dwebdriver.chrome.driver=chromedriver -jar "/home/testuser/Downloads/selenium-server-standalone-3.14.0.jar"
+      sleep: 5

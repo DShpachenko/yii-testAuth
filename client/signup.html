@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="row">
+            <div class="offset-md-5 col-md-2" style="margin-top: 100px;">
+                <div class="form-group">
+                    <label for="phone">Телефон *</label>
+                    <input type="phone" class="form-control" id="phone" placeholder="Введите номер">
+                    <small id="phoneHelp" class="form-text text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль *</label>
+                    <input type="password" class="form-control" id="password" placeholder="Пароль">
+                    <small id="passwordHelp" class="form-text text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Фамилия *</label>
+                    <input type="text" class="form-control" id="surname" placeholder="Фамилия">
+                    <small id="surnameHelp" class="form-text text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="name">Имя *</label>
+                    <input type="text" class="form-control" id="name" placeholder="Имя">
+                    <small id="nameHelp" class="form-text text-danger"></small>
+                </div>
+                <div class="form-group">
+                    <label for="patronymic">Отчество</label>
+                    <input type="text" class="form-control" id="patronymic" placeholder="Отчество">
+                </div>
+                <div class="form-group">
+                    <label for="sex">Пол</label>
+                    <select class="form-control" id="sex">
+                        <option value="1">Мужской</option>
+                        <option value="0">Женский</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="birthday">Дата рождения</label>
+                    <input type="text" class="form-control" id="birthday" placeholder="Дата рождения">
+                    <small id="birthdayHelp" class="form-text text-danger"></small>
+                </div>
+                <button class="btn btn-primary">Войти</button>
+            </div>
+        </div>        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script>
+            var ansver;
+            $(document).ready(function() {
+                $('button').on('click', function() {
+                    $('small').html('');
+                    var data = {};
+
+                    $('input').each(function(i, input) {
+                        data[input.id] = $(input).val();
+                    });
+
+                    data['sex'] = $('#sex').val();
+
+                    ajax_request(data, 'http://server/auth/signup', 'GET');
+
+                    if(typeof ansver.errors !='undefined') {
+                        for(var key in ansver.errors) {
+                            $('#' + key + 'Help').html(ansver.errors[key]);
+                        }
+                    } else {
+                        $('small').html('');
+                        alert('Успешно');
+                    }
+                });
+            });
+
+            function ajax_request(options, link, metod) {
+                $.ajax({
+                    url: link,
+                    type: metod,
+                    async: false,
+                    data: options 
+                }).done(function(e) {
+                    ansver = e;
+                });
+            }
+        </script>
+    </body>
+</html>
